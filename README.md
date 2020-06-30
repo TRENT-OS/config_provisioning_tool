@@ -1,39 +1,18 @@
 # Config Provisioning Tool
-A tool to create a partition image that contains valid configuration server
-data.This tool generates an NVM image from the XML system configuration. The XML system 
-configuration contains XML configuration of the readable/writable parameters used in 
-the system.
+This tool will create a provisioned partition image that contains valid
+configuration data that can be used by the configuration service library.
+The data is first parsed from an XML file and in turn written to a partition image.
 
 ## Build
-
-The build script needs to be called with 1 argument 
-
-```bash
-.
-|____seos_sandbox
-|     |
-|     |____tools
-|          |
-|          |____cpt
-|    build.sh
-|    test.sh
-```
-## Build using: 
-Config provision tool(cpt) gets built as part of build-sdk.sh script. If src is the folder
-where the SEOS project is cloned, then cpt can be built as
+The Config Provisioning Tool (cpt) can be built by calling the provided
+``build.sh`` script from the root folder and passing it the path to the SDK.
  ```
- ./src/build.sh sdk 
- OR
- ./src/test.sh build
+ src/build.sh <path-to-OS-SDK>
  ```
-The resulting binary 'cpt' can be found in the below path:
-OS-SDK/pkg/bin/cpt
-and the build files
-
 
 ## Tool Usage
+Run the tool by passing it the XML file to be parsed and specify the name of the
+image file to be created.
 ```
-./config_provisioning_tool  <xml_file>
+./cpt -i [<path-to-xml_file>] -o [<output_nvm_file_name>]
 ```
-## Output file
-It generates an NVM file(nvm_xx) where the cpt binary in called from.

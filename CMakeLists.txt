@@ -1,0 +1,63 @@
+#
+# Config Provisioning Tool
+#
+# Copyright (C) 2019-2020, Hensoldt Cyber GmbH
+#
+
+cmake_minimum_required(VERSION 3.10)
+
+#-------------------------------------------------------------------------------
+# configure and use the SDK
+
+set(OS_SDK_PASSIVE_CMAKE ON)
+include(${OS_SDK_SOURCE_PATH}/CMakeLists.txt)
+
+os_set_config_file(config.h)
+
+add_os_libs_subdirectories()
+
+
+#-------------------------------------------------------------------------------
+project(cpt C)
+
+add_executable(${PROJECT_NAME}
+    src/ConfigTool.c
+    src/ConfigTool_Util.c
+    src/ConfigTool_Backend.c
+    src/ConfigTool_ConfigService.c
+    src/ConfigTool_XmlParser.c
+    src/ConfigTool_FileNVM.c
+)
+
+find_package(LibXml2 REQUIRED)
+
+target_include_directories(${PROJECT_NAME}
+    PRIVATE
+        src/include
+        ${LIBXML2_INCLUDE_DIR}
+)
+
+target_compile_options(${PROJECT_NAME}
+    PUBLIC
+        -Wall
+        -Werror
+)
+
+target_compile_definitions(${PROJECT_NAME}
+    PRIVATE
+        OS_CONFIG_SERVICE_BACKEND_FILESYSTEM
+        OS_FS_BUILD_AS_LIB
+        OS_PARTITION_MANAGER_BUILD_AS_LIB
+)
+
+target_link_libraries(${PROJECT_NAME}
+    PRIVATE
+        os_core_api
+        os_libs
+        os_configuration
+        os_partition_manager
+        os_filesystem_core
+        os_filesystem_fat
+        os_filesystem_spiffs
+        ${LIBXML2_LIBRARIES}
+)
