@@ -32,6 +32,19 @@
 //-----------------------------------------------------------------------------
 // FILESYSTEM / PARTITION MANAGER
 //-----------------------------------------------------------------------------
+// Set the max. size of the output image
+#define NVM_DISK_SIZE       0x600000  //6 MiB of memory
+
+// Partition ID by which a system component can mount the specific partition
+#define PARTITION_ID        0
+
+// FAT options are 12, 16 and 32
+#define FORMAT_OPTION       FS_TYPE_FAT16
+
+// Size of the partition needs to be chosen large enough to be able to hold the
+// configuration parameter data
+#define PARTITION_SIZE      0x300000 //3 MiB
+
 // Max. partition per disk
 #define PARTITION_COUNT                         1
 
@@ -62,7 +75,7 @@ typedef struct
 static const Partition_cat_t partition_conf =
 {
     .partition[0].partition_name = "",
-    .partition[0].partition_size = 0x300000,
+    .partition[0].partition_size = PARTITION_SIZE,
     .partition[0].block_size     = 512,
 };
 

@@ -13,9 +13,6 @@
 #include "ConfigTool_FileNVM.h"
 
 
-/* Defines -------------------------------------------------------------------*/
-#define NVM_CHANNEL_MEM_SIZE  (6*1024*1024)  //6 MiB of memory
-
 /* Private variables ---------------------------------------------------------*/
 static const Nvm_Vtable FileNvm_vtable =
 {
@@ -42,18 +39,18 @@ bool FileNVM_ctor(
     if (self->fp == NULL)
     {
         self->fp = fopen(name, "wb");
-        fseek(self->fp, NVM_CHANNEL_MEM_SIZE, SEEK_SET);
+        fseek(self->fp, NVM_DISK_SIZE, SEEK_SET);
         fputc('\0', self->fp);
         fclose(self->fp);
     }
     else
     {
         // File already exists. Erase any previous data in the partition
-        size_t erasedLength = FileNVM_erase(nvm, 0, NVM_CHANNEL_MEM_SIZE);
-        if (erasedLength != NVM_CHANNEL_MEM_SIZE)
+        size_t erasedLength = FileNVM_erase(nvm, 0, NVM_DISK_SIZE);
+        if (erasedLength != NVM_DISK_SIZE)
         {
             Debug_LOG_ERROR("Couldn't format entire file. Erased %zu of %d requested bytes",
-                            erasedLength, NVM_CHANNEL_MEM_SIZE);
+                            erasedLength, NVM_DISK_SIZE);
             return false;
         }
         fclose(self->fp);
@@ -141,7 +138,7 @@ size_t FileNVM_erase(
 size_t FileNVM_getSize(
     Nvm* nvm)
 {
-    return NVM_CHANNEL_MEM_SIZE;
+    return NVM_DISK_SIZE;
 }
 
 void FileNVM_dtor(

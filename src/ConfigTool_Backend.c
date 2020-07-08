@@ -10,9 +10,6 @@
 
 #include "ConfigTool_Backend.h"
 
-/* Defines -------------------------------------------------------------------*/
-#define PARTITION_ID        0
-#define FORMAT_OPTION       FS_TYPE_FAT16
 
 /* Exported functions --------------------------------------------------------*/
 OS_Error_t ConfigTool_BackendInit(
