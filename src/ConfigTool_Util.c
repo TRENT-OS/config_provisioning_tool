@@ -8,7 +8,9 @@
 /* Includes ------------------------------------------------------------------*/
 #include <string.h>
 
+#include "LibDebug/Debug.h"
 #include "ConfigTool_Util.h"
+
 
 
 /* Public functions ----------------------------------------------------------*/

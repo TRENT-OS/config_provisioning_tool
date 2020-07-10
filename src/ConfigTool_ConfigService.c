@@ -19,7 +19,7 @@
 // Create the file backends before initializing them
 static
 OS_Error_t ConfigTool_ConfigServiceCreateFileBackends(
-    hPartition_t phandle,
+    OS_FileSystem_Handle_t hFs,
     ConfigTool_ConfigCounter_t* configCounter)
 {
     OS_ConfigServiceBackend_FileName_t name = {0};
@@ -30,7 +30,7 @@ OS_Error_t ConfigTool_ConfigServiceCreateFileBackends(
         DOMAIN_FILE);
     OS_Error_t err = OS_ConfigServiceBackend_createFileBackend(
                          name,
-                         phandle,
+                         hFs,
                          configCounter->domain_count,
                          sizeof(OS_ConfigServiceLibTypes_Domain_t));
 
@@ -46,7 +46,7 @@ OS_Error_t ConfigTool_ConfigServiceCreateFileBackends(
         PARAMETER_FILE);
     err = OS_ConfigServiceBackend_createFileBackend(
               name,
-              phandle,
+              hFs,
               configCounter->param_count,
               sizeof(OS_ConfigServiceLibTypes_Parameter_t));
     if (err != OS_SUCCESS)
@@ -61,7 +61,7 @@ OS_Error_t ConfigTool_ConfigServiceCreateFileBackends(
         STRING_FILE);
     err = OS_ConfigServiceBackend_createFileBackend(
               name,
-              phandle,
+              hFs,
               configCounter->string_count,
               OS_CONFIG_LIB_PARAMETER_MAX_STRING_LENGTH);
     if (err != OS_SUCCESS)
@@ -76,7 +76,7 @@ OS_Error_t ConfigTool_ConfigServiceCreateFileBackends(
         BLOB_FILE);
     err = OS_ConfigServiceBackend_createFileBackend(
               name,
-              phandle,
+              hFs,
               configCounter->blob_count,
               OS_CONFIG_LIB_PARAMETER_MAX_BLOB_BLOCK_LENGTH);
     if (err != OS_SUCCESS)
@@ -92,7 +92,7 @@ OS_Error_t ConfigTool_ConfigServiceCreateFileBackends(
 static
 OS_Error_t ConfigTool_ConfigServiceInitBackends(
     OS_ConfigServiceLib_t* configLib,
-    hPartition_t phandle)
+    OS_FileSystem_Handle_t hFs)
 {
     OS_ConfigServiceBackend_t parameterBackend;
     OS_ConfigServiceBackend_t domainBackend;
@@ -108,7 +108,7 @@ OS_Error_t ConfigTool_ConfigServiceInitBackends(
     OS_Error_t err = OS_ConfigServiceBackend_initializeFileBackend(
                          &domainBackend,
                          name,
-                         phandle);
+                         hFs);
     if (err != OS_SUCCESS)
     {
         Debug_LOG_ERROR("Error:Domain backend initialization");
@@ -122,7 +122,7 @@ OS_Error_t ConfigTool_ConfigServiceInitBackends(
     err = OS_ConfigServiceBackend_initializeFileBackend(
               &parameterBackend,
               name,
-              phandle);
+              hFs);
     if (err != OS_SUCCESS)
     {
         Debug_LOG_ERROR("Error:Parameter backend initialization");
@@ -136,7 +136,7 @@ OS_Error_t ConfigTool_ConfigServiceInitBackends(
     err = OS_ConfigServiceBackend_initializeFileBackend(
               &stringBackend,
               name,
-              phandle);
+              hFs);
     if (err != OS_SUCCESS)
     {
         Debug_LOG_ERROR("Error: String backend initialization");
@@ -150,7 +150,7 @@ OS_Error_t ConfigTool_ConfigServiceInitBackends(
     err = OS_ConfigServiceBackend_initializeFileBackend(
               &blobBackend,
               name,
-              phandle);
+              hFs);
     if (err != OS_SUCCESS)
     {
         Debug_LOG_ERROR("Error:Blob backend initialization");
@@ -178,11 +178,11 @@ OS_Error_t ConfigTool_ConfigServiceInitBackends(
 /* Exported functions --------------------------------------------------------*/
 OS_Error_t ConfigTool_ConfigServiceInit(
     OS_ConfigServiceLib_t* configLib,
-    hPartition_t phandle,
+    OS_FileSystem_Handle_t hFs,
     ConfigTool_ConfigCounter_t* configCounter)
 {
     OS_Error_t err = ConfigTool_ConfigServiceCreateFileBackends(
-                         phandle,
+                         hFs,
                          configCounter);
     if (err != OS_SUCCESS)
     {
@@ -191,7 +191,7 @@ OS_Error_t ConfigTool_ConfigServiceInit(
         return err;
     }
 
-    err = ConfigTool_ConfigServiceInitBackends(configLib, phandle);
+    err = ConfigTool_ConfigServiceInitBackends(configLib, hFs);
     if (err != OS_SUCCESS)
     {
         Debug_LOG_ERROR("ConfigTool_ConfigServiceInitBackends() failed with %d", err);

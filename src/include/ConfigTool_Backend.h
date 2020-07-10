@@ -6,8 +6,7 @@
  *
  * @file ConfigTool_Backend.h
  *
- * @brief Contains relevant functions to initialize the Partition
- * Manager and FileSystem.
+ * @brief Contains relevant functions to initialize the FileSystem.
  *
  */
 
@@ -16,19 +15,32 @@
 /* Includes ------------------------------------------------------------------*/
 #include "ConfigTool.h"
 #include "ConfigTool_Util.h"
-#include "ConfigTool_FileNVM.h"
+
+#include "OS_FileSystem.h"
+#include "LibHost/HostStorage.h"
 
 
 /* Exported functions --------------------------------------------------------*/
 /**
- * @brief Initializes the filesystem and partition manager backend used to write
- * the disk image.
+ * @brief Initializes the filesystem backend
  *
- * @param phandle partition handle
- * @param outFileName requested name for the created output file
+ * @param hFs filesystem handle
  * @return an error code
  * @retval OS_SUCCESS if the backend was initilazed successfully
+ * @retval OS_ERROR_INVALID_PARAMETER if an invalid parameter was passed
  * @retval OS_ERROR_GENERIC if something went wrong during the init process
  */
 OS_Error_t
-ConfigTool_BackendInit(hPartition_t* phandle, const char* outFileName);
+ConfigTool_BackendInit(OS_FileSystem_Handle_t* hFs);
+
+/**
+ * @brief Deinitialize the filesystem
+ *
+ * @param hFs filesystem handle
+ * @return an error code
+ * @retval OS_SUCCESS if the backend was deinitilazed successfully
+ * @retval OS_ERROR_INVALID_PARAMETER if an invalid parameter was passed
+ * @retval OS_ERROR_GENERIC if something went wrong during the deinitialization
+ */
+OS_Error_t
+ConfigTool_BackendDeInit(OS_FileSystem_Handle_t hFs);

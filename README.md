@@ -1,7 +1,7 @@
 # Config Provisioning Tool
-This tool will create a provisioned partition image that contains valid
+This tool will create a provisioned image that contains valid
 configuration data that can be used by the configuration service library.
-The data is first parsed from an XML file and in turn written to a partition image.
+The data is first parsed from an XML file and in turn written to the image file.
 
 ## Build
 The Config Provisioning Tool (cpt) can be built by calling the provided

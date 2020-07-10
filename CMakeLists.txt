@@ -26,7 +26,6 @@ add_executable(${PROJECT_NAME}
     src/ConfigTool_Backend.c
     src/ConfigTool_ConfigService.c
     src/ConfigTool_XmlParser.c
-    src/ConfigTool_FileNVM.c
 )
 
 find_package(LibXml2 REQUIRED)
@@ -46,8 +45,6 @@ target_compile_options(${PROJECT_NAME}
 target_compile_definitions(${PROJECT_NAME}
     PRIVATE
         OS_CONFIG_SERVICE_BACKEND_FILESYSTEM
-        OS_FS_BUILD_AS_LIB
-        OS_PARTITION_MANAGER_BUILD_AS_LIB
 )
 
 target_link_libraries(${PROJECT_NAME}
@@ -55,9 +52,6 @@ target_link_libraries(${PROJECT_NAME}
         os_core_api
         os_libs
         os_configuration
-        os_partition_manager
-        os_filesystem_core
-        os_filesystem_fat
-        os_filesystem_spiffs
+        os_filesystem
         ${LIBXML2_LIBRARIES}
 )

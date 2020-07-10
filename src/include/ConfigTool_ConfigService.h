@@ -31,7 +31,7 @@
  * on the amount of elements required.
  *
  * @param configLib pointer to the configuration library instance
- * @param phandle pointer to the partition handle
+ * @param hFs filesystem handle
  * @param configCounter pointer to the ConfigCounter object containing the
  * amount of elements that need to be written to the backends
  * @retval OS_SUCCESS if the configuration backend was initilazed successfully
@@ -43,5 +43,5 @@
 OS_Error_t
 ConfigTool_ConfigServiceInit(
     OS_ConfigServiceLib_t* configLib,
-    hPartition_t phandle,
+    OS_FileSystem_Handle_t hFs,
     ConfigTool_ConfigCounter_t* configCounter);

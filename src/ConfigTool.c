@@ -23,12 +23,12 @@
 
 /* Private functions ---------------------------------------------------------*/
 static
-OS_Error_t ConfigTool_CreateProvisionedPartition(
+OS_Error_t ConfigTool_CreateProvisionedImage(
     xmlDoc* doc,
     const char* filePath,
     const char* outFileName)
 {
-    hPartition_t phandle;
+    OS_FileSystem_Handle_t hFs;
     OS_ConfigServiceLib_t configLib;
     ConfigTool_ConfigCounter_t configCounter = {0};
 
@@ -52,9 +52,9 @@ OS_Error_t ConfigTool_CreateProvisionedPartition(
                     configCounter.domain_count, configCounter.string_count,
                     configCounter.param_count, configCounter.blob_count);
 
-    // Initialize file system and partition manager
-    Debug_LOG_DEBUG("Initializing FileSystem and PartitionManager");
-    OS_Error_t err = ConfigTool_BackendInit(&phandle, outFileName);
+    // Initialize file system
+    Debug_LOG_DEBUG("Initializing FileSystem");
+    OS_Error_t err = ConfigTool_BackendInit(&hFs);
     if (err != OS_SUCCESS)
     {
         Debug_LOG_ERROR("ConfigTool_Backend_init() failed with %d", err);
@@ -63,7 +63,7 @@ OS_Error_t ConfigTool_CreateProvisionedPartition(
 
     // Initialize the configuration service library
     Debug_LOG_DEBUG("Initializing ConfigService");
-    err = ConfigTool_ConfigServiceInit(&configLib, phandle, &configCounter);
+    err = ConfigTool_ConfigServiceInit(&configLib, hFs, &configCounter);
     if (err != OS_SUCCESS)
     {
         Debug_LOG_ERROR("ConfigTool_ConfigServiceInit() failed with %d", err);
@@ -77,7 +77,22 @@ OS_Error_t ConfigTool_CreateProvisionedPartition(
     memset(&configCounter, 0, sizeof(ConfigTool_ConfigCounter_t));
     ConfigTool_XmlParserRun(&configLib, rootElement, &configCounter, filePath);
 
-    Debug_LOG_DEBUG("Provisioned configuration partition successfully created as %s",
+    // Deinitialize the Filesystem backend
+    err = ConfigTool_BackendDeInit(hFs);
+    if (err != OS_SUCCESS)
+    {
+        Debug_LOG_ERROR("ConfigTool_BackendDeInit() failed with %d", err);
+        return err;
+    }
+
+    // Rename the generic output filename to the requested filename
+    if (rename(HOSTSTORAGE_FILE_NAME, outFileName) != 0)
+    {
+        Debug_LOG_ERROR("Renaming the output file failed.");
+        return OS_ERROR_GENERIC;
+    }
+
+    Debug_LOG_DEBUG("Provisioned configuration image successfully created as %s",
                     outFileName);
 
     return OS_SUCCESS;
@@ -124,13 +139,13 @@ int main(int argc, char* argv[])
         return -1;
     }
 
-    OS_Error_t err = ConfigTool_CreateProvisionedPartition(
+    OS_Error_t err = ConfigTool_CreateProvisionedImage(
                          doc,
                          inFileName,
                          outFileName);
     if (err != OS_SUCCESS)
     {
-        Debug_LOG_ERROR("ConfigTool_CreateProvisionedPartition() failed with %d", err);
+        Debug_LOG_ERROR("ConfigTool_CreateProvisionedImage() failed with %d", err);
         xmlFreeDoc(doc);
         return -1;
     }

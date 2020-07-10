@@ -20,9 +20,6 @@
 
 #include "OS_Error.h"
 #include "OS_ConfigService.h"
-#include "OS_Filesystem.h"
-
-#include "OS_PartitionManager.h"
 
 
 /* Defines -------------------------------------------------------------------*/

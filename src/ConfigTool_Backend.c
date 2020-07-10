@@ -1,5 +1,5 @@
 /**
- * Module to initialize the filesystem and partition manager
+ * Module to initialize the filesystem backend
  *
  * Copyright (C) 2019-2020, Hensoldt Cyber GmbH
  *
@@ -11,78 +11,61 @@
 #include "ConfigTool_Backend.h"
 
 
+/* Private variables ---------------------------------------------------------*/
+extern FakeDataport_t* hostStorage_dp;
+static OS_FileSystem_Config_t cfgFs =
+{
+    .size = OS_FileSystem_STORAGE_MAX,
+    .type = OS_FileSystem_Type_LITTLEFS,
+    .storage = OS_FILESYSTEM_ASSIGN_Storage(
+        HostStorage,
+        hostStorage_dp),
+};
+
+
 /* Exported functions --------------------------------------------------------*/
 OS_Error_t ConfigTool_BackendInit(
-    hPartition_t* phandle,
-    const char* outFileName)
+    OS_FileSystem_Handle_t* hFs)
 {
-    OS_PartitionManagerDataTypes_PartitionData_t pm_partition_data;
-
-    // Create objects for Config NVM with the file I/0 callback functions
-    static FileNVM fileNvm;
-
-    if (!FileNVM_ctor(&fileNvm, outFileName))
-    {
-        Debug_LOG_ERROR("Failed to initialize FileNVM!");
-        return OS_ERROR_GENERIC;
-    }
-
-    OS_Error_t err = OS_PartitionManager_init(&fileNvm);
+    OS_Error_t err = OS_FileSystem_init(hFs, &cfgFs);
     if (err != OS_SUCCESS)
     {
-        Debug_LOG_ERROR("OS_PartitionManager_init: %d", err);
-        return OS_ERROR_GENERIC;
+        Debug_LOG_ERROR("OS_FileSystem_init() failed with %d.", err);
+        return err;
     }
 
-    // Create partitions with info received from the partition manager
-    err = OS_PartitionManager_getInfoPartition(PARTITION_ID, &pm_partition_data);
-
-    Debug_LOG_DEBUG("Partition Name:%s, Partition ID:%d, Partition Size:%ld, "
-                    "Block Size:%d",
-                    pm_partition_data.partition_name,
-                    pm_partition_data.partition_id,
-                    pm_partition_data.partition_size,
-                    pm_partition_data.block_size);
+    err = OS_FileSystem_format(*hFs);
     if (err != OS_SUCCESS)
     {
-        Debug_LOG_ERROR("Fail to get partition information from partition manager: %d!",
-                        err);
-        return OS_ERROR_GENERIC;
+        Debug_LOG_ERROR("OS_FileSystem_format() failed with %d.", err);
+        return err;
     }
 
-    err = OS_Filesystem_init(pm_partition_data.partition_id, 0);
+    err = OS_FileSystem_mount(*hFs);
     if (err != OS_SUCCESS)
     {
-        Debug_LOG_ERROR("Fail to initialize filesystem: %d!", err);
-        return OS_ERROR_GENERIC;
+        Debug_LOG_ERROR("OS_FileSystem_mount() failed with %d.", err);
+        return err;
     }
 
-    if ( (*phandle = OS_Filesystem_open(pm_partition_data.partition_id)) < 0)
+    return OS_SUCCESS;
+}
+
+OS_Error_t ConfigTool_BackendDeInit(
+    OS_FileSystem_Handle_t hFs)
+{
+    OS_Error_t err = OS_FileSystem_unmount(hFs);
+    if (err != OS_SUCCESS)
     {
-        Debug_LOG_ERROR("Fail to open partition: %d!", pm_partition_data.partition_id);
-        return OS_ERROR_GENERIC;
+        Debug_LOG_ERROR("OS_FileSystem_mount() failed with %d.", err);
+        return err;
     }
 
-    if (OS_Filesystem_create(
-            *phandle,
-            FORMAT_OPTION,
-            pm_partition_data.partition_size,
-            0,  // default value: size of sector:   512
-            0,  // default value: size of cluster:  512
-            0,  // default value: reserved sectors count: FAT12/FAT16 = 1; FAT32 = 3
-            0,  // default value: count file/dir entries: FAT12/FAT16 = 16; FAT32 = 0
-            0,  // default value: count header sectors: 512
-            FS_PARTITION_OVERWRITE_CREATE)
-        != OS_SUCCESS)
+    err = OS_FileSystem_free(hFs);
+    if (err != OS_SUCCESS)
     {
-        Debug_LOG_ERROR("Fail to create filesystem on partition: %d!",
-                        pm_partition_data.partition_id);
-        return OS_ERROR_GENERIC;
-    }
-
-    if (OS_Filesystem_mount(*phandle) != OS_SUCCESS)
-    {
-        return OS_ERROR_GENERIC;
+        Debug_LOG_ERROR("OS_FileSystem_mount() failed with %d.", err);
+        return err;
     }
 
     return OS_SUCCESS;
