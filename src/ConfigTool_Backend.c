@@ -16,7 +16,6 @@ extern FakeDataport_t* hostStorage_dp;
 static OS_FileSystem_Config_t cfgFs =
 {
     .size = OS_FileSystem_STORAGE_MAX,
-    .type = OS_FileSystem_Type_FATFS,
     .storage = OS_FILESYSTEM_ASSIGN_Storage(
         HostStorage,
         hostStorage_dp),
@@ -25,8 +24,12 @@ static OS_FileSystem_Config_t cfgFs =
 
 /* Exported functions --------------------------------------------------------*/
 OS_Error_t ConfigTool_BackendInit(
-    OS_FileSystem_Handle_t* hFs)
+    OS_FileSystem_Handle_t* hFs,
+    OS_FileSystem_Type_t fsType)
 {
+    // Set the filesystem type specified by the user input
+    cfgFs.type = fsType;
+
     OS_Error_t err = OS_FileSystem_init(hFs, &cfgFs);
     if (err != OS_SUCCESS)
     {

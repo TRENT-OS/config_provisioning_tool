@@ -12,7 +12,8 @@ The Config Provisioning Tool (cpt) can be built by calling the provided
 
 ## Tool Usage
 Run the tool by passing it the XML file to be parsed and specify the name of the
-image file to be created.
+image file to be created. The filesystem that should be applied on this image
+needs to be set to either "FAT" or "SPIFFS".
 ```
-./cpt -i [<path-to-xml_file>] -o [<output_nvm_file_name>]
+./cpt -i [<path-to-xml_file>] -o [<output_nvm_file_name>] -t [filesystem_type]
 ```

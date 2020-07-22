@@ -28,6 +28,10 @@
 #define NUMELEMENTS ARRAY_SIZE(xmlElementLookupTable)
 #define NKEYS       ARRAY_SIZE(lookupTable)
 
+// below defines to parse the requested filesystem type
+#define FATFS                     "FAT"
+#define SPIFFS                    "SPIFFS"
+
 // below defines for elements of xml
 #define ELEMENT_DOMAIN            "domain"
 #define ELEMENT_PARAM_NAME        "param_name"

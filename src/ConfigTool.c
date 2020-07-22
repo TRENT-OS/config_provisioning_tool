@@ -23,10 +23,35 @@
 
 /* Private functions ---------------------------------------------------------*/
 static
+OS_Error_t ConfigTool_AssignFileSystemType(
+    const char* fileSystemType,
+    OS_FileSystem_Type_t* fsType)
+{
+    if (strncmp(fileSystemType, FATFS, sizeof(FATFS)) == 0)
+    {
+        Debug_LOG_DEBUG("Setting FileSystem Type to FAT");
+        *fsType = OS_FileSystem_Type_FATFS;
+        return OS_SUCCESS;
+    }
+
+    if (strncmp(fileSystemType, SPIFFS, sizeof(SPIFFS)) == 0)
+    {
+        Debug_LOG_DEBUG("Setting FileSystem Type to SPIFFS");
+        *fsType = OS_FileSystem_Type_SPIFFS;
+        return OS_SUCCESS;
+    }
+
+    printf("Requested FileSystem not supported!\n");
+    return OS_ERROR_NOT_SUPPORTED;
+}
+
+
+static
 OS_Error_t ConfigTool_CreateProvisionedImage(
     xmlDoc* doc,
     const char* filePath,
-    const char* outFileName)
+    const char* outFileName,
+    OS_FileSystem_Type_t fsType)
 {
     OS_FileSystem_Handle_t hFs;
     OS_ConfigServiceLib_t configLib;
@@ -54,7 +79,7 @@ OS_Error_t ConfigTool_CreateProvisionedImage(
 
     // Initialize file system
     Debug_LOG_DEBUG("Initializing FileSystem");
-    OS_Error_t err = ConfigTool_BackendInit(&hFs);
+    OS_Error_t err = ConfigTool_BackendInit(&hFs, fsType);
     if (err != OS_SUCCESS)
     {
         Debug_LOG_ERROR("ConfigTool_Backend_init() failed with %d", err);
@@ -102,10 +127,10 @@ OS_Error_t ConfigTool_CreateProvisionedImage(
 /* ---------------------------------------------------------------------------*/
 int main(int argc, char* argv[])
 {
-    const char* inFileName, *outFileName;
+    const char* inFileName, *outFileName, *fileSystemType;
 
     int opt;
-    while ((opt = getopt(argc, argv, "i:o:h")) != -1)
+    while ((opt = getopt(argc, argv, "i:o:t:h")) != -1)
     {
         switch (opt)
         {
@@ -115,19 +140,31 @@ int main(int argc, char* argv[])
         case 'o':
             outFileName = optarg;
             break;
+        case 't':
+            fileSystemType = optarg;
+            break;
         case '?':
             printf("unknown option: %c\n", optopt);
             break;
         case 'h':
-            printf("Usage: -i [<path-to-xml_file>] -o [<output_nvm_file_name>]\n");
+            printf("Usage: -i [<path-to-xml_file>] -o [<output_nvm_file_name>] -t [filesystem_type]\n");
             return 0;
         }
     }
 
-    if (argc < 5)
+    if (argc < 6)
     {
         printf("Not enough arguments passed to run the tool!\n");
-        printf("Usage: -i [<path-to-xml_file>] -o [<output_nvm_file_name>]\n");
+        printf("Usage: -i [<path-to-xml_file>] -o [<output_nvm_file_name>] -t [filesystem_type]\n");
+        return -1;
+    }
+
+    OS_FileSystem_Type_t fsType = OS_FileSystem_Type_NONE;
+
+    OS_Error_t err = ConfigTool_AssignFileSystemType(fileSystemType, &fsType);
+    if (err != OS_SUCCESS)
+    {
+        Debug_LOG_ERROR("ConfigTool_AssignFileSystemType() failed with %d", err);
         return -1;
     }
 
@@ -139,10 +176,11 @@ int main(int argc, char* argv[])
         return -1;
     }
 
-    OS_Error_t err = ConfigTool_CreateProvisionedImage(
-                         doc,
-                         inFileName,
-                         outFileName);
+    err = ConfigTool_CreateProvisionedImage(
+              doc,
+              inFileName,
+              outFileName,
+              fsType);
     if (err != OS_SUCCESS)
     {
         Debug_LOG_ERROR("ConfigTool_CreateProvisionedImage() failed with %d", err);

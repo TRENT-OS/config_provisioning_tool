@@ -31,7 +31,9 @@
  * @retval OS_ERROR_GENERIC if something went wrong during the init process
  */
 OS_Error_t
-ConfigTool_BackendInit(OS_FileSystem_Handle_t* hFs);
+ConfigTool_BackendInit(
+    OS_FileSystem_Handle_t* hFs,
+    OS_FileSystem_Type_t fsType);
 
 /**
  * @brief Deinitialize the filesystem
