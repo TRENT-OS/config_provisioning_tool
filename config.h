@@ -33,4 +33,4 @@
 // FILESYSTEM
 //-----------------------------------------------------------------------------
 // Set the max. size of the output image
-# define HOSTSTORAGE_SIZE ((size_t)(1 * 1024 * 1024))
+# define HOSTSTORAGE_SIZE ((size_t)(128 * 1024))
