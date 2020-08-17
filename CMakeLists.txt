@@ -12,7 +12,7 @@ cmake_minimum_required(VERSION 3.10)
 set(OS_SDK_PASSIVE_CMAKE ON)
 include(${OS_SDK_SOURCE_PATH}/CMakeLists.txt)
 
-os_set_config_file(config.h)
+os_set_config_file(config.h CREATE_CONFIG_PROJECT)
 
 add_os_libs_subdirectories()
 
