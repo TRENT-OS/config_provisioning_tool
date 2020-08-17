@@ -24,7 +24,7 @@ if [[ ! -e ${BUILD_DIR} ]]; then
         cd ${BUILD_DIR}
 
         CMAKE_PARAMS=(
-            -DOS_SDK_SOURCE_PATH:STRING=${OS_SDK_PATH}
+            -DOS_SDK_SOURCE_PATH:PATH=${OS_SDK_PATH}
         )
 
         cmake ${CMAKE_PARAMS[@]} -G Ninja ${BUILD_SCRIPT_DIR}
