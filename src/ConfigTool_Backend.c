@@ -16,7 +16,7 @@ extern FakeDataport_t* hostStorage_dp;
 static OS_FileSystem_Config_t cfgFs =
 {
     .size = OS_FileSystem_STORAGE_MAX,
-    .storage = OS_FILESYSTEM_ASSIGN_Storage(
+    .storage = IF_OS_STORAGE_ASSIGN(
         HostStorage,
         hostStorage_dp),
 };
