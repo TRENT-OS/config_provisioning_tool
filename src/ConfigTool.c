@@ -154,7 +154,8 @@ int main(int argc, char* argv[])
             break;
         case '?':
             printf("unknown option: %c\n", optopt);
-            break;
+            USAGE_STRING;
+            return -1;
         case 'h':
             USAGE_STRING;
             return 0;
