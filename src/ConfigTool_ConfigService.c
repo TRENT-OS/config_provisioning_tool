@@ -36,7 +36,7 @@ OS_Error_t ConfigTool_ConfigServiceCreateFileBackends(
 
     if (err != OS_SUCCESS)
     {
-        Debug_LOG_ERROR("Error:Domain backend create");
+        Debug_LOG_ERROR("Failed to create %s file", DOMAIN_FILE);
         return err;
     }
 
@@ -51,7 +51,7 @@ OS_Error_t ConfigTool_ConfigServiceCreateFileBackends(
               sizeof(OS_ConfigServiceLibTypes_Parameter_t));
     if (err != OS_SUCCESS)
     {
-        Debug_LOG_ERROR("Error:Parameter backend create");
+        Debug_LOG_ERROR("Failed to create %s file", PARAMETER_FILE);
         return err;
     }
 
@@ -66,7 +66,7 @@ OS_Error_t ConfigTool_ConfigServiceCreateFileBackends(
               OS_CONFIG_LIB_PARAMETER_MAX_STRING_LENGTH);
     if (err != OS_SUCCESS)
     {
-        Debug_LOG_ERROR("Error:String backend create");
+        Debug_LOG_ERROR("Failed to create %s file", STRING_FILE);
         return err;
     }
 
@@ -81,11 +81,11 @@ OS_Error_t ConfigTool_ConfigServiceCreateFileBackends(
               OS_CONFIG_LIB_PARAMETER_MAX_BLOB_BLOCK_LENGTH);
     if (err != OS_SUCCESS)
     {
-        Debug_LOG_ERROR("Error:Blob backend create");
+        Debug_LOG_ERROR("Failed to create %s file", BLOB_FILE);
         return err;
     }
 
-    Debug_LOG_DEBUG("Config Backend Create OK");
+    Debug_LOG_DEBUG("Config Backend Files successfully created");
     return OS_SUCCESS;
 }
 
@@ -111,7 +111,7 @@ OS_Error_t ConfigTool_ConfigServiceInitBackends(
                          hFs);
     if (err != OS_SUCCESS)
     {
-        Debug_LOG_ERROR("Error:Domain backend initialization");
+        Debug_LOG_ERROR("Failed to initialize %s", DOMAIN_FILE);
         return err;
     }
 
@@ -125,7 +125,7 @@ OS_Error_t ConfigTool_ConfigServiceInitBackends(
               hFs);
     if (err != OS_SUCCESS)
     {
-        Debug_LOG_ERROR("Error:Parameter backend initialization");
+        Debug_LOG_ERROR("Failed to initialize %s", PARAMETER_FILE);
         return err;
     }
 
@@ -139,7 +139,7 @@ OS_Error_t ConfigTool_ConfigServiceInitBackends(
               hFs);
     if (err != OS_SUCCESS)
     {
-        Debug_LOG_ERROR("Error: String backend initialization");
+        Debug_LOG_ERROR("Failed to initialize %s", STRING_FILE);
         return err;
     }
 
@@ -153,7 +153,7 @@ OS_Error_t ConfigTool_ConfigServiceInitBackends(
               hFs);
     if (err != OS_SUCCESS)
     {
-        Debug_LOG_ERROR("Error:Blob backend initialization");
+        Debug_LOG_ERROR("Failed to initialize %s", BLOB_FILE);
         return err;
     }
 
@@ -165,12 +165,12 @@ OS_Error_t ConfigTool_ConfigServiceInitBackends(
               &blobBackend);
     if (err != OS_SUCCESS)
     {
-        Debug_LOG_ERROR("Error: Config lib init fail %d", err);
+        Debug_LOG_ERROR("OS_ConfigServiceLib_Init() failed with %d", err);
         return err;
     }
 
 
-    Debug_LOG_DEBUG("Config Backend Init OK");
+    Debug_LOG_DEBUG("Config Backend initialized successfully");
     return OS_SUCCESS;
 }
 
