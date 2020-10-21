@@ -156,7 +156,7 @@ int main(int argc, char* argv[])
             printf("unknown option: %c\n", optopt);
             break;
         case 'h':
-            printf("Usage: -i <path-to-xml_file> [-o <output_nvm_file_name>] [-t <filesystem_type>]\n");
+            USAGE_STRING;
             return 0;
         }
     }
@@ -164,14 +164,14 @@ int main(int argc, char* argv[])
     if (argc < 3)
     {
         printf("Not enough arguments passed to run the tool!\n");
-        printf("Usage: -i <path-to-xml_file> [-o <output_nvm_file_name>] [-t <filesystem_type>]\n");
+        USAGE_STRING;
         return -1;
     }
 
     if (createImageFile && argc < 6)
     {
         printf("Not enough arguments passed to create a provisioned image!\n");
-        printf("Usage: -i <path-to-xml_file> [-o <output_nvm_file_name>] [-t <filesystem_type>]\n");
+        USAGE_STRING;
         return -1;
     }
 

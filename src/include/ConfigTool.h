@@ -23,6 +23,11 @@
 
 
 /* Defines -------------------------------------------------------------------*/
+#define USAGE_STRING                             \
+    printf("Usage: cpt -i [<path-to-xml_file>] " \
+           "-o [<output_nvm_file_name>] "        \
+           "-t [<filesystem_type>]\n")
+
 #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]))
 
 #define NUMELEMENTS ARRAY_SIZE(xmlElementLookupTable)
