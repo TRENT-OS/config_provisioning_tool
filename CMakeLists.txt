@@ -22,6 +22,7 @@ include("${OS_SDK_PATH}/CMakeLists.txt")
 os_set_config_file("config.h" CREATE_CONFIG_PROJECT)
 
 add_os_libs_subdirectories()
+add_subdirectory(src/lib)
 
 
 #-------------------------------------------------------------------------------
@@ -29,12 +30,6 @@ project(cpt C)
 
 add_executable(${PROJECT_NAME}
     src/ConfigTool.c
-    src/ConfigTool_Util.c
-    src/ConfigTool_Backend.c
-    src/ConfigTool_ConfigService.c
-    src/ConfigTool_XmlParser.c
-    src/ConfigTool_HostFs.c
-    src/ConfigTool_HostFsFile.c
 )
 
 find_package(LibXml2 REQUIRED)
@@ -62,5 +57,6 @@ target_link_libraries(${PROJECT_NAME}
         os_libs
         os_configuration
         os_filesystem
+        cpt_lib
         ${LIBXML2_LIBRARIES}
 )
