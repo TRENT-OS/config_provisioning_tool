@@ -20,7 +20,7 @@
 static
 OS_Error_t ConfigTool_ConfigServiceCreateFileBackends(
     OS_FileSystem_Handle_t hFs,
-    ConfigTool_ConfigCounter_t* configCounter)
+    ConfigTool_ConfigServiceCounter_t* configCounter)
 {
     OS_ConfigServiceBackend_FileName_t name = {0};
 
@@ -179,7 +179,7 @@ OS_Error_t ConfigTool_ConfigServiceInitBackends(
 OS_Error_t ConfigTool_ConfigServiceInit(
     OS_ConfigServiceLib_t* configLib,
     OS_FileSystem_Handle_t hFs,
-    ConfigTool_ConfigCounter_t* configCounter)
+    ConfigTool_ConfigServiceCounter_t* configCounter)
 {
     OS_Error_t err = ConfigTool_ConfigServiceCreateFileBackends(
                          hFs,

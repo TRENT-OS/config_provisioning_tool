@@ -7,6 +7,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include <string.h>
+#include <stdlib.h>
 
 #include "LibDebug/Debug.h"
 #include "ConfigTool_Util.h"

@@ -12,7 +12,7 @@
 #pragma once
 
 /* Includes ------------------------------------------------------------------*/
-#include "ConfigTool.h"
+#include "OS_ConfigService.h"
 
 
 /* Exported functions --------------------------------------------------------*/

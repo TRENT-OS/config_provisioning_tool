@@ -14,11 +14,17 @@
 #include <unistd.h>
 
 #include "LibDebug/Debug.h"
-#include "ConfigTool.h"
 #include "ConfigTool_XmlParser.h"
 #include "ConfigTool_Backend.h"
 #include "ConfigTool_ConfigService.h"
 #include "ConfigTool_Util.h"
+
+
+/* Defines -------------------------------------------------------------------*/
+#define USAGE_STRING                             \
+    printf("Usage: cpt -i [<path-to-xml_file>] " \
+           "-o [<output_nvm_file_name>] "        \
+           "-t [<filesystem_type>]\n")
 
 
 /* Private functions ---------------------------------------------------------*/
@@ -27,14 +33,14 @@ OS_Error_t ConfigTool_AssignFileSystemType(
     const char* fileSystemType,
     OS_FileSystem_Type_t* fsType)
 {
-    if (strncmp(fileSystemType, FAT, sizeof(FAT)) == 0)
+    if (strncmp(fileSystemType, "FAT", sizeof("FAT")) == 0)
     {
         Debug_LOG_DEBUG("Setting FileSystem Type to FAT");
         *fsType = OS_FileSystem_Type_FATFS;
         return OS_SUCCESS;
     }
 
-    if (strncmp(fileSystemType, SPIFFS, sizeof(SPIFFS)) == 0)
+    if (strncmp(fileSystemType, "SPIFFS", sizeof("SPIFFS")) == 0)
     {
         Debug_LOG_DEBUG("Setting FileSystem Type to SPIFFS");
         *fsType = OS_FileSystem_Type_SPIFFS;
@@ -56,7 +62,7 @@ OS_Error_t ConfigTool_CreateProvisioning(
 {
     OS_FileSystem_Handle_t hFs;
     OS_ConfigServiceLib_t configLib;
-    ConfigTool_ConfigCounter_t configCounter = {0};
+    ConfigTool_ConfigServiceCounter_t configCounter = {0};
 
     // Get the root element node
     xmlNode* rootElement = xmlDocGetRootElement(doc);
@@ -100,7 +106,7 @@ OS_Error_t ConfigTool_CreateProvisioning(
      * are being written, we reset it to zero after initializing the
      * configuration lib
      */
-    memset(&configCounter, 0, sizeof(ConfigTool_ConfigCounter_t));
+    memset(&configCounter, 0, sizeof(ConfigTool_ConfigServiceCounter_t));
     ConfigTool_XmlParserRun(&configLib, rootElement, &configCounter, filePath);
 
     // Deinitialize the Filesystem backend

@@ -14,48 +14,10 @@
 #pragma once
 
 /* Includes ------------------------------------------------------------------*/
-#include "ConfigTool.h"
+#include <libxml/parser.h>
+#include <libxml/tree.h>
+#include "ConfigTool_ConfigService.h"
 #include "ConfigTool_Util.h"
-
-
-/* Exported types/defines/enums ----------------------------------------------*/
-/**
- * @brief Utilized to map the parsed XML elements to the supported element types
- *
- */
-typedef struct
-{
-    const char*  element;
-    unsigned int val;
-} ConfigTool_XmlParserElements_t;
-
-/**
- * @brief Holds the relevant objects of an XML parameter elemnent to write it to
- * the configuration backend
- */
-typedef struct
-{
-    ConfigTool_ParameterTypes_t type;
-    char  paramName[OS_CONFIG_LIB_PARAMETER_NAME_LEN]; /**< name of params present (from XML) */
-    void* value;    /**< value of params present (from XML) */
-} ConfigTool_XmlParserParams_t;
-
-/**
- * @brief Holds all currently supported XML element types used in the
- *
- */
-typedef enum
-{
-    XML_ELEMENT_DOMAIN = 1,
-    XML_ELEMENT_PARAM_NAME,
-    XML_ELEMENT_TYPE,
-    XML_ELEMENT_VALUE,
-    XML_ELEMENT_ACCESS_POLICY,
-    XML_ELEMENT_COMPONENT,
-    XML_ELEMENT_READ,
-    XML_ELEMENT_WRITE,
-    XML_ELEMENT_BAD = -1
-} ConfigTool_XmlParserElementValues_t;
 
 
 /* Exported functions --------------------------------------------------------*/
@@ -70,7 +32,7 @@ typedef enum
 void ConfigTool_XmlParserRun(
     OS_ConfigServiceLib_t* configLib,
     xmlNode* a_node,
-    ConfigTool_ConfigCounter_t* configCounter,
+    ConfigTool_ConfigServiceCounter_t* configCounter,
     const char* dirPath);
 
 /**
@@ -83,5 +45,5 @@ void ConfigTool_XmlParserRun(
  */
 void ConfigTool_XmlParserGetElementCount(
     xmlNode* a_node,
-    ConfigTool_ConfigCounter_t* configCounter,
+    ConfigTool_ConfigServiceCounter_t* configCounter,
     const char* dirPath);
