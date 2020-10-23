@@ -42,5 +42,3 @@ ConfigTool_HostFsInit(
 OS_Error_t
 ConfigTool_HostFsFree(
     OS_FileSystem_Handle_t self);
-
-

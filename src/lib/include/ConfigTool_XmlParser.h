@@ -85,6 +85,3 @@ void ConfigTool_XmlParserGetElementCount(
     xmlNode* a_node,
     ConfigTool_ConfigCounter_t* configCounter,
     const char* dirPath);
-
-
-

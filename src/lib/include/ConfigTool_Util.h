@@ -59,4 +59,3 @@ ConfigTool_UtilInitializeName(
  */
 uint32_t
 ConfigTool_UtilCalculateNumberOfBlocks(const char* blobValue);
-
