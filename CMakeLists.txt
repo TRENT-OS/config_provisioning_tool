@@ -33,6 +33,8 @@ add_executable(${PROJECT_NAME}
     src/ConfigTool_Backend.c
     src/ConfigTool_ConfigService.c
     src/ConfigTool_XmlParser.c
+    src/ConfigTool_HostFs.c
+    src/ConfigTool_HostFsFile.c
 )
 
 find_package(LibXml2 REQUIRED)

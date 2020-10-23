@@ -27,7 +27,7 @@ OS_Error_t ConfigTool_AssignFileSystemType(
     const char* fileSystemType,
     OS_FileSystem_Type_t* fsType)
 {
-    if (strncmp(fileSystemType, FATFS, sizeof(FATFS)) == 0)
+    if (strncmp(fileSystemType, FAT, sizeof(FAT)) == 0)
     {
         Debug_LOG_DEBUG("Setting FileSystem Type to FAT");
         *fsType = OS_FileSystem_Type_FATFS;
@@ -47,11 +47,12 @@ OS_Error_t ConfigTool_AssignFileSystemType(
 
 
 static
-OS_Error_t ConfigTool_CreateProvisionedImage(
+OS_Error_t ConfigTool_CreateProvisioning(
     xmlDoc* doc,
     const char* filePath,
     const char* outFileName,
-    OS_FileSystem_Type_t fsType)
+    OS_FileSystem_Type_t fsType,
+    bool createImageFile)
 {
     OS_FileSystem_Handle_t hFs;
     OS_ConfigServiceLib_t configLib;
@@ -110,15 +111,19 @@ OS_Error_t ConfigTool_CreateProvisionedImage(
         return err;
     }
 
-    // Rename the generic output filename to the requested filename
-    if (rename(HOSTSTORAGE_FILE_NAME, outFileName) != 0)
+    // If an image should be created, the output might need renaming
+    if (createImageFile)
     {
-        Debug_LOG_ERROR("Renaming the output file failed.");
-        return OS_ERROR_GENERIC;
-    }
+        // Rename the generic output filename to the requested filename
+        if (rename(HOSTSTORAGE_FILE_NAME, outFileName) != 0)
+        {
+            Debug_LOG_ERROR("Renaming the output file failed.");
+            return OS_ERROR_GENERIC;
+        }
 
-    Debug_LOG_DEBUG("Provisioned configuration image successfully created as %s",
-                    outFileName);
+        Debug_LOG_DEBUG("Provisioned configuration image successfully created as %s",
+                        outFileName);
+    }
 
     return OS_SUCCESS;
 }
@@ -128,6 +133,8 @@ OS_Error_t ConfigTool_CreateProvisionedImage(
 int main(int argc, char* argv[])
 {
     const char* inFileName, *outFileName, *fileSystemType;
+    bool createImageFile = false;
+    OS_Error_t err;
 
     int opt;
     while ((opt = getopt(argc, argv, "i:o:t:h")) != -1)
@@ -139,33 +146,45 @@ int main(int argc, char* argv[])
             break;
         case 'o':
             outFileName = optarg;
+            createImageFile = true;
             break;
         case 't':
             fileSystemType = optarg;
+            createImageFile = true;
             break;
         case '?':
             printf("unknown option: %c\n", optopt);
             break;
         case 'h':
-            printf("Usage: -i [<path-to-xml_file>] -o [<output_nvm_file_name>] -t [filesystem_type]\n");
+            printf("Usage: -i <path-to-xml_file> [-o <output_nvm_file_name>] [-t <filesystem_type>]\n");
             return 0;
         }
     }
 
-    if (argc < 6)
+    if (argc < 3)
     {
         printf("Not enough arguments passed to run the tool!\n");
-        printf("Usage: -i [<path-to-xml_file>] -o [<output_nvm_file_name>] -t [filesystem_type]\n");
+        printf("Usage: -i <path-to-xml_file> [-o <output_nvm_file_name>] [-t <filesystem_type>]\n");
+        return -1;
+    }
+
+    if (createImageFile && argc < 6)
+    {
+        printf("Not enough arguments passed to create a provisioned image!\n");
+        printf("Usage: -i <path-to-xml_file> [-o <output_nvm_file_name>] [-t <filesystem_type>]\n");
         return -1;
     }
 
     OS_FileSystem_Type_t fsType = OS_FileSystem_Type_NONE;
 
-    OS_Error_t err = ConfigTool_AssignFileSystemType(fileSystemType, &fsType);
-    if (err != OS_SUCCESS)
+    if (createImageFile)
     {
-        Debug_LOG_ERROR("ConfigTool_AssignFileSystemType() failed with %d", err);
-        return -1;
+        err = ConfigTool_AssignFileSystemType(fileSystemType, &fsType);
+        if (err != OS_SUCCESS)
+        {
+            Debug_LOG_ERROR("ConfigTool_AssignFileSystemType() failed with %d", err);
+            return -1;
+        }
     }
 
     // Parse the file and get the DOM(document object model)
@@ -176,14 +195,15 @@ int main(int argc, char* argv[])
         return -1;
     }
 
-    err = ConfigTool_CreateProvisionedImage(
+    err = ConfigTool_CreateProvisioning(
               doc,
               inFileName,
               outFileName,
-              fsType);
+              fsType,
+              createImageFile);
     if (err != OS_SUCCESS)
     {
-        Debug_LOG_ERROR("ConfigTool_CreateProvisionedImage() failed with %d", err);
+        Debug_LOG_ERROR("ConfigTool_CreateProvisioning() failed with %d", err);
         xmlFreeDoc(doc);
         return -1;
     }

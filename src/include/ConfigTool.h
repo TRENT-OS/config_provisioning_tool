@@ -29,7 +29,7 @@
 #define NKEYS       ARRAY_SIZE(lookupTable)
 
 // below defines to parse the requested filesystem type
-#define FATFS                     "FAT"
+#define FAT                       "FAT"
 #define SPIFFS                    "SPIFFS"
 
 // below defines for elements of xml

@@ -15,6 +15,8 @@
 /* Includes ------------------------------------------------------------------*/
 #include "ConfigTool.h"
 #include "ConfigTool_Util.h"
+#include "ConfigTool_HostFs.h"
+#include "ConfigTool_HostFsFile.h"
 
 #include "OS_FileSystem.h"
 #include "LibHost/HostStorage.h"
