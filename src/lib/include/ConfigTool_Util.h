@@ -29,10 +29,10 @@ ConfigTool_UtilCopyFileToBuf(
  */
 void
 ConfigTool_UtilInitializeDomain(
-    OS_ConfigServiceLibTypes_Domain_t* domain, //!< [out] Domain object to write
-                                               //!<       the name to
-    char const* name                           //!< [in] Name to write to the
-                                               //!<      domain object
+    OS_ConfigServiceLibTypes_Domain_t* domain, /*!< [out] Domain object to write
+                                                          the name to */
+    char const* name                           /*!< [in] Name to write to the
+                                                         domain object */
 );
 
 /**
