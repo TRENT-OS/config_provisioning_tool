@@ -1,15 +1,11 @@
+/* Copyright (C) 2020, HENSOLDT Cyber GmbH */
+
 /**
- * Copyright (C) 2020, Hensoldt Cyber GmbH
- *
- * @addtogroup Config Provisioning Tool
- * @{
- *
- * @file ConfigTool_Backend.h
- *
+ * @file
  * @brief Contains relevant functions to initialize the FileSystem.
  *
+ * @ingroup ConfigProvisioningTool
  */
-
 #pragma once
 
 /* Includes ------------------------------------------------------------------*/
@@ -23,27 +19,28 @@
 
 /* Exported functions --------------------------------------------------------*/
 /**
- * @brief Initializes the filesystem backend
+ * @brief Initializes the filesystem backend.
  *
- * @param hFs filesystem handle
  * @return an error code
- * @retval OS_SUCCESS if the backend was initilazed successfully
- * @retval OS_ERROR_INVALID_PARAMETER if an invalid parameter was passed
- * @retval OS_ERROR_GENERIC if something went wrong during the init process
+ * @retval OS_SUCCESS - if the backend was initilazed successfully
+ * @retval OS_ERROR_INVALID_PARAMETER - if an invalid parameter was passed
+ * @retval OS_ERROR_GENERIC - if something went wrong during the init process
  */
 OS_Error_t
 ConfigTool_BackendInit(
-    OS_FileSystem_Handle_t* hFs,
-    OS_FileSystem_Type_t fsType);
+    OS_FileSystem_Handle_t* hFs, //!< [in] Pointer to a filesystem handle
+    OS_FileSystem_Type_t fsType  //!< [in] Filesystem type
+);
 
 /**
- * @brief Deinitialize the filesystem
+ * @brief Deinitialize the filesystem.
  *
- * @param hFs filesystem handle
  * @return an error code
- * @retval OS_SUCCESS if the backend was deinitilazed successfully
- * @retval OS_ERROR_INVALID_PARAMETER if an invalid parameter was passed
- * @retval OS_ERROR_GENERIC if something went wrong during the deinitialization
+ * @retval OS_SUCCESS - if the backend was deinitilazed successfully
+ * @retval OS_ERROR_INVALID_PARAMETER - if an invalid parameter was passed
+ * @retval OS_ERROR_GENERIC - if something went wrong during the deinitialization
  */
 OS_Error_t
-ConfigTool_BackendDeInit(OS_FileSystem_Handle_t hFs);
+ConfigTool_BackendDeInit(
+    OS_FileSystem_Handle_t hFs //!< [in] Filesystem handle
+);

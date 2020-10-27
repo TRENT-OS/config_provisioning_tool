@@ -1,17 +1,18 @@
+/* Copyright (C) 2020, HENSOLDT Cyber GmbH */
+
 /**
- * Copyright (C) 2020, Hensoldt Cyber GmbH
- *
- * @addtogroup Config Provisioning Tool
- * @{
- *
- * @file ConfigTool_ConfigService.h
- *
+ * @file
  * @brief Contains relevant functions to setup and initialize the Configurations
  * Service library.
  *
+ * @ingroup ConfigProvisioningTool
+ *
  */
-
 #pragma once
+
+/**
+ * @defgroup ConfigProvisioningTool Configuration Provisioning Tool
+ */
 
 /* Includes ------------------------------------------------------------------*/
 #include "OS_Error.h"
@@ -27,8 +28,8 @@
 
 /* Exported types/enums ------------------------------------------------------*/
 /**
- * @brief Holds the currently supported parameter types of the configuration library
- *
+ * @brief Holds the currently supported parameter types of the configuration
+ * library.
  */
 typedef enum
 {
@@ -40,8 +41,8 @@ typedef enum
 } ConfigTool_ConfigServiceParamType_t;
 
 /**
- * @brief Utilized to map the parsed parameter types to the supported parameter types
- *
+ * @brief Utilized to map the parsed parameter types to the supported
+ * parameter types.
  */
 typedef struct
 {
@@ -50,7 +51,7 @@ typedef struct
 } ConfigTool_ConfigServiceTypes_t;
 
 /**
- * @brief Counter to keep track of the parsed number of elements
+ * @brief Counter to keep track of the parsed number of elements.
  *
  */
 typedef struct
@@ -68,9 +69,9 @@ typedef struct
  * backend instances for the different parameter types (string, blob etc.) based
  * on the amount of elements required.
  *
- * @param configLib pointer to the configuration library instance
- * @param hFs filesystem handle
- * @param configCounter pointer to the ConfigCounter object containing the
+ * @param configLib [out] pointer to the configuration library instance
+ * @param hFs [in] filesystem handle
+ * @param configCounter [in] pointer to the ConfigCounter object containing the
  * amount of elements that need to be written to the backends
  * @retval OS_SUCCESS if the configuration backend was initilazed successfully
  * @retval OS_ERROR_GENERIC if something went wrong during the init or writing
@@ -82,4 +83,5 @@ OS_Error_t
 ConfigTool_ConfigServiceInit(
     OS_ConfigServiceLib_t* configLib,
     OS_FileSystem_Handle_t hFs,
-    ConfigTool_ConfigServiceCounter_t* configCounter);
+    ConfigTool_ConfigServiceCounter_t* configCounter
+);

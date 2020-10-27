@@ -1,14 +1,11 @@
-/**
- * Copyright (C) 2020, Hensoldt Cyber GmbH
- *
- * @addtogroup Config Provisioning Tool
- * @{
- *
- * @file ConfigTool_Util.h
- *
- * @brief Module with various helper functions
- */
+/* Copyright (C) 2020, HENSOLDT Cyber GmbH */
 
+/**
+ * @file
+ * @brief Module with various helper functions.
+ *
+ * @ingroup ConfigProvisioningTool
+ */
 #pragma once
 
 /* Includes ------------------------------------------------------------------*/
@@ -20,42 +17,41 @@
  * @brief Helper function that copies the contents of the passed file to a
  * buffer that is dynamically allocated.
  *
- * @param filename path to the file that should be copied into a buffer
  * @return char* pointer to the allocated buffer containing the file content
  */
 char*
-ConfigTool_UtilCopyFileToBuf(const char* filename);
+ConfigTool_UtilCopyFileToBuf(
+    const char* filename //!< [in] Path to the file to copy to the buffer
+);
 
 /**
  * @brief Helper function that initializes a domain with the given name.
- *
- * @param domain domain object to write the name to
- * @param name name to write to the domain object
  */
 void
 ConfigTool_UtilInitializeDomain(
-    OS_ConfigServiceLibTypes_Domain_t* domain,
-    char const* name);
+    OS_ConfigServiceLibTypes_Domain_t* domain, //!< [out] Domain object to write
+                                               //!<       the name to
+    char const* name                           //!< [in] Name to write to the
+                                               //!<      domain object
+);
 
 /**
  * @brief Helper function that initializes the passed buffer and copies the
  * passed name to it.
- *
- * @param buf buffer to copy the name to
- * @param bufSize size of the buffer
- * @param name name to copy into the buffer
  */
 void
 ConfigTool_UtilInitializeName(
-    char* buf,
-    size_t bufSize,
-    char const* name);
+    char* buf,       //!< [out] Buffer to copy the name to
+    size_t bufSize,  //!< [in] Size of the buffer
+    char const* name //!< [in] Name to copy into the buffer
+);
 
 /**
- * @brief Calculates the number blocks required to store the blob parameters
+ * @brief Calculates the number blocks required to store the blob parameters.
  *
- * @param blobValue pointer to the blob value
  * @return uint32_t calculated number of blocks required to store the blob value
  */
 uint32_t
-ConfigTool_UtilCalculateNumberOfBlocks(const char* blobValue);
+ConfigTool_UtilCalculateNumberOfBlocks(
+    const char* blobValue //!< [in] Pointer to the blob value
+);
