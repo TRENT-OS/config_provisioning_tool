@@ -107,7 +107,7 @@ OS_Error_t ConfigTool_CreateProvisioning(
      * configuration lib
      */
     memset(&configCounter, 0, sizeof(ConfigTool_ConfigServiceCounter_t));
-    ConfigTool_XmlParserRun(&configLib, rootElement, &configCounter, filePath);
+    ConfigTool_XmlParserRun(&configLib, rootElement, &configCounter, dirPath);
 
     // Deinitialize the Filesystem backend
     err = ConfigTool_BackendDeInit(hFs);
