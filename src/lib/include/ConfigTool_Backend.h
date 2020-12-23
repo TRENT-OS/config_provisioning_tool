@@ -14,7 +14,7 @@
 #include "ConfigTool_HostFsFile.h"
 
 #include "OS_FileSystem.h"
-#include "LibHost/HostStorage.h"
+#include "lib_host/HostStorage.h"
 
 
 /* Exported functions --------------------------------------------------------*/

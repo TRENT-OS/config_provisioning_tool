@@ -55,7 +55,8 @@ target_compile_definitions(${PROJECT_NAME}
 target_link_libraries(${PROJECT_NAME}
     PRIVATE
         os_core_api
-        os_libs
+        lib_debug
+        lib_host
         os_configuration
         os_filesystem
         cpt_lib

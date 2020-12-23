@@ -8,7 +8,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include <stdio.h>
 
-#include "LibDebug/Debug.h"
+#include "lib_debug/Debug.h"
 #include "ConfigTool_HostFsFile.h"
 
 

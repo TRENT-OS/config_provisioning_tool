@@ -10,7 +10,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-#include "LibDebug/Debug.h"
+#include "lib_debug/Debug.h"
 #include "ConfigTool_ConfigService.h"
 #include "ConfigTool_Util.h"
 

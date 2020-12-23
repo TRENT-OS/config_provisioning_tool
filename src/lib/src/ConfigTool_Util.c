@@ -9,7 +9,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include "LibDebug/Debug.h"
+#include "lib_debug/Debug.h"
 #include "ConfigTool_Util.h"
 
 

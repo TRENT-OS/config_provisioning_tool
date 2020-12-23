@@ -13,7 +13,7 @@
 #include <libgen.h>
 #include <unistd.h>
 
-#include "LibDebug/Debug.h"
+#include "lib_debug/Debug.h"
 #include "ConfigTool_XmlParser.h"
 #include "ConfigTool_Backend.h"
 #include "ConfigTool_ConfigService.h"

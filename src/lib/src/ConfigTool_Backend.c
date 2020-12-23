@@ -6,7 +6,7 @@
  */
 
 /* Includes ------------------------------------------------------------------*/
-#include "LibDebug/Debug.h"
+#include "lib_debug/Debug.h"
 
 #include "ConfigTool_Backend.h"
 
