@@ -33,8 +33,8 @@
  */
 typedef enum
 {
-    INT32 = 1,
-    INT64,
+    UINT32 = 1,
+    UINT64,
     STRING,
     BLOB,
     BADTYPE = -1

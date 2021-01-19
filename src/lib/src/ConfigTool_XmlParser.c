@@ -73,8 +73,8 @@ static bool hasWriteAccess = false;
 
 static ConfigTool_ConfigServiceTypes_t lookupTable[] =
 {
-    { "int32",  INT32 },
-    { "int64",  INT64 },
+    { "uint32",  UINT32 },
+    { "uint64",  UINT64 },
     { "string", STRING },
     { "blob",   BLOB }
 };
@@ -622,8 +622,8 @@ ConfigTool_XmlParserWriteParamValue(
 
     switch (xmlparams.type)
     {
-    case INT32:
-        Debug_LOG_DEBUG("Param Type:%s", "Int32");
+    case UINT32:
+        Debug_LOG_DEBUG("Param Type uint32");
         err = ConfigTool_HandleInt32Parameter(configLib, &parameter, configCounter);
         if (err != OS_SUCCESS)
         {
@@ -632,8 +632,8 @@ ConfigTool_XmlParserWriteParamValue(
         }
         break;
 
-    case INT64:
-        Debug_LOG_DEBUG("Param Type:%s", "Int64");
+    case UINT64:
+        Debug_LOG_DEBUG("Param Type uint64");
         err = ConfigTool_HandleInt64Parameter(configLib, &parameter, configCounter);
         if (err != OS_SUCCESS)
         {
@@ -643,8 +643,7 @@ ConfigTool_XmlParserWriteParamValue(
         break;
 
     case STRING:
-        Debug_LOG_DEBUG("Param Type:%s", "string");
-        Debug_LOG_DEBUG("Param Value:%s", (char*)xmlparams.value);
+        Debug_LOG_DEBUG("Param Type String, Value:%s", (char*)xmlparams.value);
         err = ConfigTool_HandleStringParameter(configLib, &parameter, configCounter);
         if (err != OS_SUCCESS)
         {
@@ -654,8 +653,7 @@ ConfigTool_XmlParserWriteParamValue(
         break;
 
     case BLOB:
-        Debug_LOG_DEBUG("Param Type:%s", "Blob");
-        Debug_LOG_DEBUG("Param Value:%s", (char*)xmlparams.value);
+        Debug_LOG_DEBUG("Param Type Blob, Value:%s", (char*)xmlparams.value);
         err = ConfigTool_HandleBlobParameter(
                   configLib,
                   &parameter,
@@ -718,8 +716,8 @@ void ConfigTool_XmlParserGetElementCount(
                     ConfigTool_HandleBlobCount(cur_node, configCounter, dirPath);
                     break;
 
-                case INT32:
-                case INT64:
+                case UINT32:
+                case UINT64:
                     Debug_LOG_DEBUG("Found an Int parameter");
                     configCounter->param_count++;
                     break;
