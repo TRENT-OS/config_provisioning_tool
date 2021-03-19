@@ -138,7 +138,7 @@ OS_Error_t ConfigTool_CreateProvisioning(
 /* ---------------------------------------------------------------------------*/
 int main(int argc, char* argv[])
 {
-    const char* inFileName, *outFileName, *fileSystemType;
+    const char* inFileName = NULL, *outFileName = NULL, *fileSystemType = NULL;
     bool createImageFile = false;
     OS_Error_t err;
 
