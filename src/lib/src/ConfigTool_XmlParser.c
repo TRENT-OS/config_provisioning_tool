@@ -809,8 +809,8 @@ void ConfigTool_XmlParserRun(
             case XML_ELEMENT_PARAM_NAME:
                 strncpy(xmlparams.paramName,
                         node_content,
-                        // strlen() does not include NULL terminator
-                        strlen(node_content) + 1);
+                        sizeof(xmlparams.paramName) - 1);
+                xmlparams.paramName[sizeof(xmlparams.paramName) - 1] = '\0';
                 break;
 
             case XML_ELEMENT_TYPE:
