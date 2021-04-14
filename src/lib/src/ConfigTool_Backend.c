@@ -12,13 +12,13 @@
 
 
 /* Private variables ---------------------------------------------------------*/
-extern FakeDataport_t* hostStorage_dp;
+extern FakeDataport_t* hostStorage_port;
 static OS_FileSystem_Config_t cfgFs =
 {
     .size = OS_FileSystem_USE_STORAGE_MAX,
     .storage = IF_OS_STORAGE_ASSIGN(
         HostStorage,
-        hostStorage_dp),
+        hostStorage_port),
 };
 
 
