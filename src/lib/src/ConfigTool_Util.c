@@ -1,8 +1,7 @@
 /*
- *  Utility functions
+ * Utility functions
  *
- *  Copyright (C) 2019-2020, Hensoldt Cyber GmbH
- *
+ * Copyright (C) 2019-2021, HENSOLDT Cyber GmbH
  */
 
 /* Includes ------------------------------------------------------------------*/
@@ -23,17 +22,17 @@ ConfigTool_UtilCalculateNumberOfBlocks(const char* blobValue)
 
     uint32_t calcNumberOfBlocks;
 
-    if (blobSize <= OS_CONFIG_LIB_PARAMETER_MAX_BLOB_BLOCK_LENGTH)
+    if (blobSize <= OS_CONFIG_LIB_PARAMETER_MAX_BLOB_BLOCK_SIZE)
     {
         calcNumberOfBlocks = 1;
     }
 
-    if (blobSize > OS_CONFIG_LIB_PARAMETER_MAX_BLOB_BLOCK_LENGTH)
+    if (blobSize > OS_CONFIG_LIB_PARAMETER_MAX_BLOB_BLOCK_SIZE)
     {
         calcNumberOfBlocks =
-            (blobSize / OS_CONFIG_LIB_PARAMETER_MAX_BLOB_BLOCK_LENGTH);
+            (blobSize / OS_CONFIG_LIB_PARAMETER_MAX_BLOB_BLOCK_SIZE);
 
-        if ((blobSize % OS_CONFIG_LIB_PARAMETER_MAX_BLOB_BLOCK_LENGTH) != 0)
+        if ((blobSize % OS_CONFIG_LIB_PARAMETER_MAX_BLOB_BLOCK_SIZE) != 0)
         {
             calcNumberOfBlocks++;
         }
@@ -49,7 +48,7 @@ ConfigTool_UtilInitializeDomain(
 {
     ConfigTool_UtilInitializeName(
         domain->name.name,
-        OS_CONFIG_LIB_DOMAIN_NAME_LEN,
+        OS_CONFIG_LIB_DOMAIN_NAME_SIZE,
         name);
     domain->enumerator.index = 0;
 }

@@ -1,8 +1,7 @@
 /*
- *  Module to initialize the configuration service library
+ * Module to initialize the configuration service library
  *
- *  Copyright (C) 2019-2020, Hensoldt Cyber GmbH
- *
+ * Copyright (C) 2019-2021, HENSOLDT Cyber GmbH
  */
 
 /* Includes ------------------------------------------------------------------*/
@@ -26,7 +25,7 @@ OS_Error_t ConfigTool_ConfigServiceCreateFileBackends(
 
     ConfigTool_UtilInitializeName(
         name.buffer,
-        OS_CONFIG_BACKEND_MAX_FILE_NAME_LEN,
+        OS_CONFIG_BACKEND_MAX_FILE_NAME_SIZE,
         DOMAIN_FILE);
     OS_Error_t err = OS_ConfigServiceBackend_createFileBackend(
                          name,
@@ -42,7 +41,7 @@ OS_Error_t ConfigTool_ConfigServiceCreateFileBackends(
 
     ConfigTool_UtilInitializeName(
         name.buffer,
-        OS_CONFIG_BACKEND_MAX_FILE_NAME_LEN,
+        OS_CONFIG_BACKEND_MAX_FILE_NAME_SIZE,
         PARAMETER_FILE);
     err = OS_ConfigServiceBackend_createFileBackend(
               name,
@@ -57,13 +56,13 @@ OS_Error_t ConfigTool_ConfigServiceCreateFileBackends(
 
     ConfigTool_UtilInitializeName(
         name.buffer,
-        OS_CONFIG_BACKEND_MAX_FILE_NAME_LEN,
+        OS_CONFIG_BACKEND_MAX_FILE_NAME_SIZE,
         STRING_FILE);
     err = OS_ConfigServiceBackend_createFileBackend(
               name,
               hFs,
               configCounter->string_count,
-              OS_CONFIG_LIB_PARAMETER_MAX_STRING_LENGTH);
+              OS_CONFIG_LIB_PARAMETER_MAX_STRING_SIZE);
     if (err != OS_SUCCESS)
     {
         Debug_LOG_ERROR("Failed to create %s file", STRING_FILE);
@@ -72,13 +71,13 @@ OS_Error_t ConfigTool_ConfigServiceCreateFileBackends(
 
     ConfigTool_UtilInitializeName(
         name.buffer,
-        OS_CONFIG_BACKEND_MAX_FILE_NAME_LEN,
+        OS_CONFIG_BACKEND_MAX_FILE_NAME_SIZE,
         BLOB_FILE);
     err = OS_ConfigServiceBackend_createFileBackend(
               name,
               hFs,
               configCounter->blob_count,
-              OS_CONFIG_LIB_PARAMETER_MAX_BLOB_BLOCK_LENGTH);
+              OS_CONFIG_LIB_PARAMETER_MAX_BLOB_BLOCK_SIZE);
     if (err != OS_SUCCESS)
     {
         Debug_LOG_ERROR("Failed to create %s file", BLOB_FILE);
@@ -103,7 +102,7 @@ OS_Error_t ConfigTool_ConfigServiceInitBackends(
     // Initialize the backends in the config library object.
     ConfigTool_UtilInitializeName(
         name.buffer,
-        OS_CONFIG_BACKEND_MAX_FILE_NAME_LEN,
+        OS_CONFIG_BACKEND_MAX_FILE_NAME_SIZE,
         DOMAIN_FILE);
     OS_Error_t err = OS_ConfigServiceBackend_initializeFileBackend(
                          &domainBackend,
@@ -117,7 +116,7 @@ OS_Error_t ConfigTool_ConfigServiceInitBackends(
 
     ConfigTool_UtilInitializeName(
         name.buffer,
-        OS_CONFIG_BACKEND_MAX_FILE_NAME_LEN,
+        OS_CONFIG_BACKEND_MAX_FILE_NAME_SIZE,
         PARAMETER_FILE);
     err = OS_ConfigServiceBackend_initializeFileBackend(
               &parameterBackend,
@@ -131,7 +130,7 @@ OS_Error_t ConfigTool_ConfigServiceInitBackends(
 
     ConfigTool_UtilInitializeName(
         name.buffer,
-        OS_CONFIG_BACKEND_MAX_FILE_NAME_LEN,
+        OS_CONFIG_BACKEND_MAX_FILE_NAME_SIZE,
         STRING_FILE);
     err = OS_ConfigServiceBackend_initializeFileBackend(
               &stringBackend,
@@ -145,7 +144,7 @@ OS_Error_t ConfigTool_ConfigServiceInitBackends(
 
     ConfigTool_UtilInitializeName(
         name.buffer,
-        OS_CONFIG_BACKEND_MAX_FILE_NAME_LEN,
+        OS_CONFIG_BACKEND_MAX_FILE_NAME_SIZE,
         BLOB_FILE);
     err = OS_ConfigServiceBackend_initializeFileBackend(
               &blobBackend,

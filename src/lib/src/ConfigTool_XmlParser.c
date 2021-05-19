@@ -1,9 +1,8 @@
 /*
- *  Parses the XML element nodes and writes the parameters and domains to the
- *  configuration library instance
+ * Parses the XML element nodes and writes the parameters and domains to the
+ * configuration library instance
  *
- *  Copyright (C) 2019-2020, Hensoldt Cyber GmbH
- *
+ * Copyright (C) 2019-2021, HENSOLDT Cyber GmbH
  */
 
 /* Includes ------------------------------------------------------------------*/
@@ -46,7 +45,7 @@ typedef struct
 typedef struct
 {
     ConfigTool_ConfigServiceParamType_t type;
-    char  paramName[OS_CONFIG_LIB_PARAMETER_NAME_LEN]; /**< name of params present (from XML) */
+    char  paramName[OS_CONFIG_LIB_PARAMETER_NAME_SIZE]; /**< name of params present (from XML) */
     void* value;    /**< value of params present (from XML) */
 } ConfigTool_XmlParserParams_t;
 
@@ -217,7 +216,7 @@ ConfigTool_XmlParserWriteVariableLengthBlob(
     }
 
     // We anticipate a maximum size here which should be ok to place on the stack.
-    char tmpBuf[OS_CONFIG_LIB_PARAMETER_MAX_BLOB_BLOCK_LENGTH] = {0};
+    char tmpBuf[OS_CONFIG_LIB_PARAMETER_MAX_BLOB_BLOCK_SIZE] = {0};
     size_t bytesCopied = 0;
 
     while (bytesCopied < bufferLength)
@@ -281,7 +280,7 @@ ConfigTool_XmlParserAddIntParameter(
 
     ConfigTool_UtilInitializeName(
         parameter->parameterName.name,
-        OS_CONFIG_LIB_PARAMETER_NAME_LEN,
+        OS_CONFIG_LIB_PARAMETER_NAME_SIZE,
         parameterName);
 
     OS_Error_t err = OS_ConfigServiceBackend_writeRecord(
@@ -311,7 +310,7 @@ ConfigTool_XmlParserAddStringParameter(
     size_t parameterSize)
 {
 
-    char str[OS_CONFIG_LIB_PARAMETER_MAX_STRING_LENGTH];
+    char str[OS_CONFIG_LIB_PARAMETER_MAX_STRING_SIZE];
     memset(str, 0, sizeof(str));
     strncpy(str, (const char*)xmlparams.value, (sizeof(str) - 1));
 
@@ -320,7 +319,7 @@ ConfigTool_XmlParserAddStringParameter(
 
     ConfigTool_UtilInitializeName(
         parameter->parameterName.name,
-        OS_CONFIG_LIB_PARAMETER_NAME_LEN,
+        OS_CONFIG_LIB_PARAMETER_NAME_SIZE,
         parameterName);
 
     parameter->parameterValue.valueString.index = stringIndex;
@@ -373,7 +372,7 @@ ConfigTool_XmlParserAddBlobParameter(
 
     ConfigTool_UtilInitializeName(
         parameter->parameterName.name,
-        OS_CONFIG_LIB_PARAMETER_NAME_LEN,
+        OS_CONFIG_LIB_PARAMETER_NAME_SIZE,
         parameterName);
 
     uint32_t calcNumberOfBlocks = ConfigTool_UtilCalculateNumberOfBlocks(
