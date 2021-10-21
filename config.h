@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2020, Hensoldt Cyber GmbH
+ * Copyright (C) 2020-2021, HENSOLDT Cyber GmbH
  *
  * Configuration for the utilized libraries
  */
@@ -18,7 +18,7 @@
 #   define Debug_Config_NO_ASSERT_SELF_PTR
 #endif
 
-#define Debug_Config_LOG_LEVEL                  Debug_LOG_LEVEL_INFO
+#define Debug_Config_LOG_LEVEL                  Debug_LOG_LEVEL_WARNING
 #define Debug_Config_INCLUDE_LEVEL_IN_MSG
 #define Debug_Config_LOG_WITH_FILE_LINE
 
