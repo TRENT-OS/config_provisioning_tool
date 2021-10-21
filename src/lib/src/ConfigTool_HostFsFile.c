@@ -1,7 +1,7 @@
 /*
  *  Wrapper for the host FileSystem file operations
  *
- *  Copyright (C) 2020, Hensoldt Cyber GmbH
+ *  Copyright (C) 2020, HENSOLDT Cyber GmbH
  *
  */
 
