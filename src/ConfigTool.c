@@ -1,7 +1,7 @@
 /**
  * Configuration Provisioning Tool
  *
- * Copyright (C) 2019-2020, Hensoldt Cyber GmbH
+ * Copyright (C) 2019-2021, HENSOLDT Cyber GmbH
  *
  */
 
@@ -44,6 +44,13 @@ OS_Error_t ConfigTool_AssignFileSystemType(
     {
         Debug_LOG_DEBUG("Setting FileSystem Type to SPIFFS");
         *fsType = OS_FileSystem_Type_SPIFFS;
+        return OS_SUCCESS;
+    }
+
+    if (strncmp(fileSystemType, "LITTLEFS", sizeof("LITTLEFS")) == 0)
+    {
+        Debug_LOG_DEBUG("Setting FileSystem Type to LittleFS");
+        *fsType = OS_FileSystem_Type_LITTLEFS;
         return OS_SUCCESS;
     }
 

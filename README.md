@@ -24,7 +24,7 @@ Run the tool by passing it the XML file to be parsed.
 The tool can also generate a partition image containing the binary files.
 To create an image file, you need to additionally specify the desired output
 image name and the filesystem type, that the image should be formatted to. The
-possible options for the type are either "FAT" or "SPIFFS".
+possible options for the type are either "FAT", "SPIFFS" or "LITTLEFS".
 If the created partition image was formatted with a FAT filesystem, it can be
 mounted like any other disk image under Linux.
 
