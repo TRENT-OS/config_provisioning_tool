@@ -175,19 +175,39 @@ int main(int argc, char* argv[])
         }
     }
 
-    if (argc < 3)
+    if ((inFileName == NULL))
     {
-        printf("Not enough arguments passed to run the tool!\n");
+        printf("Invalid usage of the tool!\n"
+               "No path provided to a configuration XML file.\n");
         USAGE_STRING;
         return -1;
     }
 
-    if (createImageFile && argc < 6)
+    if (((outFileName != NULL) && (fileSystemType == NULL)))
     {
-        printf("Not enough arguments passed to create a provisioned image!\n");
+        printf("Invalid usage of the tool!\n"
+               "No FileSystem type provided.\n");
         USAGE_STRING;
         return -1;
     }
+
+    if (((outFileName == NULL) && (fileSystemType != NULL)))
+    {
+        printf("Invalid usage of the tool!\n"
+               "No output filename provided.\n");
+        USAGE_STRING;
+        return -1;
+    }
+
+    // Verify that the provided configuration file can be opened
+    FILE* f = fopen(inFileName, "r");
+    if (f == NULL)
+    {
+        fprintf(stderr, "Failed to open '%s': ", inFileName);
+        perror("");
+        return -1;
+    }
+    fclose(f);
 
     OS_FileSystem_Type_t fsType = OS_FileSystem_Type_NONE;
 
