@@ -10,7 +10,7 @@ The Config Provisioning Tool (cpt) can be built by calling the provided
 ``build.sh`` script from the root folder and passing it the path to the SDK.
 
  ```shell
- src/build.sh <path-to-OS-SDK>
+ trentos/build.sh <path-to-OS-SDK>
  ```
 
 ## Tool Usage
